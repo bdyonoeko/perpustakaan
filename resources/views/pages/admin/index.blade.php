@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('title', 'Dashboard')
+@section('title', 'PerpustakaanXYZ | Dashboard')
 
 @section('content')
 <!-- Page Heading -->

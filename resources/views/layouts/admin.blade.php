@@ -20,7 +20,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        {{-- @include('includes.mahasiswa.topbar') --}}
+        @include('includes.admin.sidebar')
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -28,7 +28,7 @@
             <!-- Main Content -->
             <div id="content">
 
-                {{-- @include('includes.admin.topbar') --}}
+                @include('includes.admin.topbar')
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -41,7 +41,7 @@
             </div>
             <!-- End of Main Content -->
 
-            {{-- @include('includes.admin.footer') --}}
+            @include('includes.admin.footer')
 
         </div>
         <!-- End of Content Wrapper -->
