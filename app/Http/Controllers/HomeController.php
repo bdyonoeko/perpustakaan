@@ -28,6 +28,6 @@ class HomeController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return view('pages.mahasiswa.index');
+        return view('pages.student.index');
     }
 }

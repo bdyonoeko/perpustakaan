@@ -12,6 +12,7 @@
     <title>@yield('title')</title>
 
     @include('includes.styles')
+    @stack('css')
 
 </head>
 
@@ -78,6 +79,7 @@
     </div>
 
     @include('includes.scripts')
+    @stack('js')
 
 </body>
 
