@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('location');
-            $table->string('floor');
+            $table->string('floor', 2);
             $table->timestamps();
         });
     }

@@ -13,8 +13,18 @@
     <div class="card shadow-sm">
         <div class="container py-4">
 
+            {{-- pesan --}}
+            @if (session()->has('pesan'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session()->get('pesan') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+
             {{-- button --}}
-            <a href="" class="btn btn-primary mb-3">Tambah Kategori</a>
+            <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Tambah Kategori</a>
 
             {{-- table --}}
             <div class="table-responsive">
@@ -29,13 +39,36 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                        {{-- tampil data --}}
+                        @forelse ($categories as $category)
                         <tr>
-                            <td>1</td>
-                            <td>Michael Bruce</td>
-                            <td>Javascript Developer</td>
-                            <td>Singapore</td>
-                            <td>29</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $category->name }}</td>
+                            <td>{{ $category->location }}</td>
+                            <td>{{ $category->floor }}</td>
+                            <td class="d-flex justify-content-center">
+
+                                {{-- edit --}}
+                                <a href="{{ route('category.edit', $category->id) }}" class="btn btn-secondary mr-2"
+                                    title="Ubah">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <!-- button delete modal -->
+                                <button type="button" class="btn btn-danger btn-delete" data-toggle="modal"
+                                    data-target="#deleteModal" data-id={{ $category->id }} title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+
+                            </td>
                         </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Tidak ada data</td>
+                        </tr>
+                        @endforelse
+
                     </tbody>
                 </table>
             </div>
@@ -45,6 +78,11 @@
 
 </div>
 <!-- /.container-fluid -->
+
 @endsection
 
+@include('includes.deleteModal')
+
 @include('includes.datatables')
+
+@include('includes.jsDelete')

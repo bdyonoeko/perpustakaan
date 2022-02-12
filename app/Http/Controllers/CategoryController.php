@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -13,7 +14,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('pages.admin.category.index');
+        $categories = DB::table('categories')
+            ->orderBy('name')
+            ->get();
+
+        return view('pages.admin.category.index', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -23,7 +30,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.admin.category.create');
     }
 
     /**
@@ -34,7 +41,26 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validasi
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'location' => 'required',
+            'floor' => 'required',
+        ]);
+
+        // datetime
+        $datetime = [
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+
+        // merge array
+        $data = array_merge($validatedData, $datetime);
+
+        // simpan 
+        DB::table('categories')->insert($data);
+
+        return redirect()->route('category.index')->with('pesan', 'Tambah kategori berhasil');
     }
 
     /**
@@ -56,7 +82,14 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        // ambil data
+        $category = DB::table('categories')
+            ->where('id', $id)
+            ->first();
+
+        return view('pages.admin.category.edit', [
+            'category' => $category
+        ]);
     }
 
     /**
@@ -68,7 +101,27 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // validasi
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'location' => 'required',
+            'floor' => 'required',
+        ]);
+
+        // datetime
+        $datetime = [
+            'updated_at' => now(),
+        ];
+
+        // merge array
+        $data = array_merge($validatedData, $datetime);
+
+        // update 
+        DB::table('categories')
+        ->where('id', $id)
+        ->update($data);
+
+        return redirect()->route('category.index')->with('pesan', 'Ubah kategori berhasil');
     }
 
     /**
@@ -79,6 +132,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('categories')
+        ->where('id', $id)
+        ->delete();
+
+        return redirect()->route('category.index')->with('pesan', 'Hapus kategori berhasil');
     }
 }

@@ -26,14 +26,14 @@
 
     <!-- Nav Item - Buku -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('book') }}">
+        <a class="nav-link" href="{{ route('book.index') }}">
             <i class="fas fa-fw fa-book"></i>
             <span>Buku</span></a>
     </li>
 
     <!-- Nav Item - Kategori -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('category') }}">
+        <a class="nav-link" href="{{ route('category.index') }}">
             <i class="fas fa-fw fa-list"></i>
             <span>Kategori</span></a>
     </li>

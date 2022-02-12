@@ -77,6 +77,7 @@
             </div>
         </div>
     </div>
+    @stack('modal')
 
     @include('includes.scripts')
     @stack('js')
