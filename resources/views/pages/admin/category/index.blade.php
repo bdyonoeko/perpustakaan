@@ -81,8 +81,8 @@
 
 @endsection
 
+{{-- melampirkan push deleteModal --}}
 @include('includes.deleteModal')
 
+{{-- melampirkan push css dan js datatables --}}
 @include('includes.datatables')
-
-@include('includes.jsDelete')

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -13,7 +14,13 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('pages.admin.book.index');
+        $books = DB::table('books')
+            ->orderBy('title')
+            ->get();
+
+        return view('pages.admin.book.index', [
+            'books' => $books
+        ]);
     }
 
     /**
@@ -23,7 +30,12 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        // ambil data kategori
+        $categories = DB::table('categories')->get();
+
+        return view('pages.admin.book.create', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -79,6 +91,10 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('books')
+        ->where('id', $id)
+        ->delete();
+
+        return redirect()->route('book.index')->with('pesan', 'Hapus buku berhasil');
     }
 }

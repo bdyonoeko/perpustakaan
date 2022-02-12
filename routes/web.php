@@ -22,14 +22,12 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // admin start
     // dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('is_admin');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('is_admin');
 
     // buku
-    // Route::get('/book', [BookController::class, 'index'])->name('book')->middleware('is_admin');
     Route::resource('book', BookController::class)->middleware('is_admin');
 
     // category
-    // Route::get('/category', [CategoryController::class, 'index'])->name('category')->middleware('is_admin');
     Route::resource('category', CategoryController::class)->middleware('is_admin');
 // admin end
 

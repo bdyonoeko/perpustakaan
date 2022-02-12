@@ -12,7 +12,7 @@
     <title>@yield('title')</title>
 
     @include('includes.styles')
-    @stack('css')
+    @stack('styles')
 
 </head>
 
@@ -80,7 +80,7 @@
     @stack('modal')
 
     @include('includes.scripts')
-    @stack('js')
+    @stack('scripts')
 
 </body>
 

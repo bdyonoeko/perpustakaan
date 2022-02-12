@@ -14,7 +14,7 @@
         <div class="container py-4">
 
             {{-- button --}}
-            <a href="" class="btn btn-primary mb-3">Tambah Buku</a>
+            <a href="{{ route('book.create') }}" class="btn btn-primary mb-3">Tambah Buku</a>
 
             {{-- table --}}
             <div class="table-responsive">
@@ -32,26 +32,47 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                        {{-- tampil data --}}
+                        @forelse ($books as $book)
                         <tr>
-                            <td>1</td>
-                            <td>Michael Bruce</td>
-                            <td>Javascript Developer</td>
-                            <td>Singapore</td>
-                            <td>29</td>
-                            <td>2022</td>
-                            <td>2011/06/27</td>
-                            <td>$183,000</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>
+                                <img src="{{ asset('images/' . $book->cover) }}" alt="{{ $book->title }}"
+                                    style="width: 100px; height: 200px">
+                            </td>
+                            <td>{{ $book->title }}</td>
+                            <td>{{ $book->writer }}</td>
+                            <td>{{ $book->category }}</td>
+                            <td>{{ $book->year }}</td>
+                            <td>{{ $book->stock }}</td>
+                            <td class="d-flex justify-content-center">
+
+                                {{-- read --}}
+                                <a href="{{ route('book.read', $book->id) }}" class="btn btn-info mr-2" title="Detail">
+                                    <i class="fas fa-info"></i>
+                                </a>
+
+                                {{-- edit --}}
+                                <a href="{{ route('book.edit', $book->id) }}" class="btn btn-secondary mr-2"
+                                    title="Ubah">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <!-- button delete modal -->
+                                <button type="button" class="btn btn-danger btn-delete" data-toggle="modal"
+                                    data-target="#deleteModal" data-id={{ $book->id }} title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+
+                            </td>
                         </tr>
+                        @empty
                         <tr>
-                            <td>2</td>
-                            <td>Michael Bruce</td>
-                            <td>Javascript Developer</td>
-                            <td>Singapore</td>
-                            <td>29</td>
-                            <td>2022</td>
-                            <td>2011/06/27</td>
-                            <td>$183,000</td>
+                            <td colspan="8" class="text-center">Tidak ada data</td>
                         </tr>
+                        @endforelse
+
                     </tbody>
                 </table>
             </div>
@@ -63,4 +84,8 @@
 <!-- /.container-fluid -->
 @endsection
 
+{{-- melampirkan push deleteModal --}}
+@include('includes.deleteModal')
+
+{{-- melampirkan push css dan js datatables --}}
 @include('includes.datatables')
