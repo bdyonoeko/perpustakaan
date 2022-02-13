@@ -33,8 +33,8 @@
                         <tr>
                             <th>#</th>
                             <th>Nama</th>
-                            <th>Lokasi</th>
-                            <th>Lantai</th>
+                            <th>Lokasi Penyimpanan</th>
+                            <th>Lantai Perpustakaan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>

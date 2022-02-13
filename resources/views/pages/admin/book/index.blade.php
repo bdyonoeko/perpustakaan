@@ -49,7 +49,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>
                                 <img src="{{ asset('images/covers/' . $book->cover) }}" alt="{{ $book->title }}"
-                                    style="width: 70px; height: 100px">
+                                    class="img-sm">
                             </td>
                             <td>{{ $book->title }}</td>
                             <td>{{ $book->writer }}</td>

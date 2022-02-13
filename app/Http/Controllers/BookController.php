@@ -17,8 +17,8 @@ class BookController extends Controller
     {
         // ambil data buku-buku
         $books = DB::table('books')
-            ->join('categories', 'books.category_id', '=', 'categories.id')
             ->select('books.*', 'categories.name as name')
+            ->join('categories', 'books.category_id', '=', 'categories.id')
             ->orderBy('title')
             ->get();
 
@@ -36,8 +36,8 @@ class BookController extends Controller
     {
         // ambil data kategori-kategori
         $categories = DB::table('categories')
-        ->orderBy('name')
-        ->get();
+            ->orderBy('name')
+            ->get();
 
         return view('pages.admin.book.create', [
             'categories' => $categories
@@ -105,9 +105,16 @@ class BookController extends Controller
      */
     public function show($id)
     {
+        // ambil data buku-buku
         $book = DB::table('books')
-            ->where('id', $id)
+            ->select('books.*', 'categories.name as name', 'categories.location as location', 'categories.floor as floor')
+            ->join('categories', 'books.category_id', '=', 'categories.id')
+            ->where('books.id', $id)
             ->first();
+
+        return view('pages.admin.book.show', [
+            'book' => $book
+        ]);
     }
 
     /**

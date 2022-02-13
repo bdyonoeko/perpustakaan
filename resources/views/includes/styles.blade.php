@@ -6,3 +6,6 @@
 
 <!-- Custom styles for this template-->
 <link href="{{ asset('templates/css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+{{-- my style --}}
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
