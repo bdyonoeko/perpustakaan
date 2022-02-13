@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class BookController extends Controller
 {
@@ -14,8 +15,10 @@ class BookController extends Controller
      */
     public function index()
     {
+        // ambil data buku-buku
         $books = DB::table('books')
             ->join('categories', 'books.category_id', '=', 'categories.id')
+            ->select('books.*', 'categories.name as name')
             ->orderBy('title')
             ->get();
 
@@ -31,7 +34,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        // ambil data kategori
+        // ambil data kategori-kategori
         $categories = DB::table('categories')
         ->orderBy('name')
         ->get();
@@ -60,15 +63,26 @@ class BookController extends Controller
             'stock' => 'required',
         ]);
 
-        // ganti nama cover
+        // cover
         if ($request->hasfile('cover')) {
+            // ganti nama
             $changeNameCover = uniqid('cvr-') . '.jpg';
+            // pindahkan file
+            $request->cover->move('images/covers/', $changeNameCover);
         } else {
             $changeNameCover = 'default.jpg';
         }
 
+        // description
+        if ($request->description == null) {
+            $description = 'Deskripsi buku belum dibuat';
+        } else {
+            $description = $request->description;
+        }
+
         // data tambahan
         $addData = [
+            'description' => $description,
             'cover' => $changeNameCover,
             'created_at' => now(),
             'updated_at' => now(),
@@ -79,11 +93,6 @@ class BookController extends Controller
 
         // simpan 
         DB::table('books')->insert($data);
-
-        // pindahkan gambar
-        if ($request->hasfile('cover')) {
-            $request->cover->move('images/covers/', $changeNameCover);
-        }
 
         return redirect()->route('book.index')->with('pesan', 'Tambah buku berhasil');
     }
@@ -107,7 +116,20 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        // ambil data buku
+        $book = DB::table('books')
+            ->where('id', $id)
+            ->first();
+
+        // ambil data kategori-kategori
+        $categories = DB::table('categories')
+            ->orderBy('name')
+            ->get();
+
+        return view('pages.admin.book.edit', [
+            'book' => $book,
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -119,7 +141,55 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // validasi
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'writer' => 'required',
+            'publisher' => 'required',
+            'year' => 'required|numeric|min:4',
+            'category_id' => 'required',
+            'cover' => 'mimes:png,jpg,jpeg|max:2048',
+            'stock' => 'required',
+        ]);
+
+        // cover
+        if ($request->hasfile('cover')) {
+            // ganti nama
+            $changeNameCover = uniqid('cvr-') . '.jpg';
+            // pindahkan file
+            $request->cover->move('images/covers/', $changeNameCover);
+            // hapus gambar lama
+            if ($request->coverOld == 'default.jpg') {
+                File::delete('images/covers/' . $request->coverOld);
+            }
+        } else {
+            $changeNameCover = $request->coverOld;
+        }
+
+        // description
+        if ($request->description == null) {
+            $description = 'Deskripsi buku belum dibuat';
+        } else {
+            $description = $request->description;
+        }
+
+        // data tambahan
+        $addData = [
+            'description' => $description,
+            'cover' => $changeNameCover,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+
+        // merge array
+        $data = array_merge($validatedData, $addData);
+
+        // update 
+        DB::table('books')
+        ->where('id', $id)
+        ->update($data);
+
+        return redirect()->route('book.index')->with('pesan', 'Ubah buku berhasil');
     }
 
     /**
