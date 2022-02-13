@@ -105,7 +105,9 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        //
+        $book = DB::table('books')
+            ->where('id', $id)
+            ->first();
     }
 
     /**
@@ -158,8 +160,8 @@ class BookController extends Controller
             $changeNameCover = uniqid('cvr-') . '.jpg';
             // pindahkan file
             $request->cover->move('images/covers/', $changeNameCover);
-            // hapus gambar lama
-            if ($request->coverOld == 'default.jpg') {
+            // hapus file cover lama
+            if ($request->coverOld != 'default.jpg') {
                 File::delete('images/covers/' . $request->coverOld);
             }
         } else {
@@ -186,8 +188,8 @@ class BookController extends Controller
 
         // update 
         DB::table('books')
-        ->where('id', $id)
-        ->update($data);
+            ->where('id', $id)
+            ->update($data);
 
         return redirect()->route('book.index')->with('pesan', 'Ubah buku berhasil');
     }
@@ -200,9 +202,20 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
+        // ambil data buku
+        $book = DB::table('books')
+            ->where('id', $id)
+            ->first();
+
+        // hapus file cover
+        if ($book->cover != 'default.jpg') {
+            File::delete('images/covers/' . $book->cover);
+        }
+
+        // hapus data buku
         DB::table('books')
-        ->where('id', $id)
-        ->delete();
+            ->where('id', $id)
+            ->delete();
 
         return redirect()->route('book.index')->with('pesan', 'Hapus buku berhasil');
     }

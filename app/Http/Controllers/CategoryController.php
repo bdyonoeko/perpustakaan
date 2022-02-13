@@ -118,8 +118,8 @@ class CategoryController extends Controller
 
         // update 
         DB::table('categories')
-        ->where('id', $id)
-        ->update($data);
+            ->where('id', $id)
+            ->update($data);
 
         return redirect()->route('category.index')->with('pesan', 'Ubah kategori berhasil');
     }
@@ -133,8 +133,8 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         DB::table('categories')
-        ->where('id', $id)
-        ->delete();
+            ->where('id', $id)
+            ->delete();
 
         return redirect()->route('category.index')->with('pesan', 'Hapus kategori berhasil');
     }

@@ -13,6 +13,16 @@
     <div class="card shadow-sm">
         <div class="container py-4">
 
+            {{-- pesan --}}
+            @if (session()->has('pesan'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session()->get('pesan') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+
             {{-- button --}}
             <a href="{{ route('book.create') }}" class="btn btn-primary mb-3">Tambah Buku</a>
 
@@ -89,3 +99,20 @@
 
 {{-- melampirkan push css dan js datatables --}}
 @include('includes.datatables')
+
+{{-- push script deleteJS --}}
+@push('scripts')
+<script>
+    // menangkap nilai id lalu mengeneratenya ke dalam url action form 
+    $('.btn-delete').click(function () {
+        let idDelete = $(this).attr('data-id');
+        $('#deleteForm').attr('action', '/book/' + idDelete);
+    })
+
+    // jika ya ditekan, maka submit form
+    $('#deleteForm [type="submit"]').click(function () {
+        $('#deleteForm').submit();
+    })
+
+</script>
+@endpush
