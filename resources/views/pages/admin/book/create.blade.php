@@ -24,7 +24,7 @@
             <div class="col-md-8">
 
                 {{-- form --}}
-                <form action="{{ route('book.store') }}" method="post">
+                <form action="{{ route('book.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="title">Judul</label>
@@ -51,10 +51,10 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="publisher">Tahun Publikasi</label>
-                        <input type="year" class="form-control @error('publisher') is-invalid @enderror" id="publisher"
-                            name="publisher" placeholder="Ex: 2005" value="{{ old('publisher') }}">
-                        @error('publisher')
+                        <label for="year">Tahun Publikasi</label>
+                        <input type="number" class="form-control @error('year') is-invalid @enderror" id="year"
+                            name="year" placeholder="Ex: 2005" value="{{ old('year') }}">
+                        @error('year')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
@@ -64,7 +64,8 @@
                             name="category_id">
                             {{-- list kategori --}}
                             @forelse ($categories as $category)
-                            <option value="{{ $category->id }}" {{ old('category_id') == '1' ? 'selected' : '' }}>
+                            <option value="{{ $category->id }}"
+                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                 {{ $category->name }}
                             </option>
                             @empty
@@ -77,7 +78,7 @@
                     </div>
                     <div class="form-group">
                         <label for="cover">Sampul</label>
-                        <input type="file" class="form-control" name="cover" id="cover">
+                        <input type="file" class="form-control" id="cover" name="cover">
                         @error('cover')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror

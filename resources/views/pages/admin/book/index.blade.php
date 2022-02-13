@@ -38,19 +38,19 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                <img src="{{ asset('images/' . $book->cover) }}" alt="{{ $book->title }}"
-                                    style="width: 100px; height: 200px">
+                                <img src="{{ asset('images/covers/' . $book->cover) }}" alt="{{ $book->title }}"
+                                    style="width: 70px; height: 100px">
                             </td>
                             <td>{{ $book->title }}</td>
                             <td>{{ $book->writer }}</td>
-                            <td>{{ $book->category }}</td>
+                            <td>{{ $book->name }}</td>
                             <td>{{ $book->year }}</td>
                             <td>{{ $book->stock }}</td>
                             <td class="d-flex justify-content-center">
 
                                 {{-- read --}}
-                                <a href="{{ route('book.read', $book->id) }}" class="btn btn-info mr-2" title="Detail">
-                                    <i class="fas fa-info"></i>
+                                <a href="{{ route('book.show', $book->id) }}" class="btn btn-info mr-2" title="Detail">
+                                    <i class="fas fa-eye"></i>
                                 </a>
 
                                 {{-- edit --}}

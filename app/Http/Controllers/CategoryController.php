@@ -48,14 +48,14 @@ class CategoryController extends Controller
             'floor' => 'required',
         ]);
 
-        // datetime
-        $datetime = [
+        // data tambahan
+        $addData = [
             'created_at' => now(),
             'updated_at' => now(),
         ];
 
         // merge array
-        $data = array_merge($validatedData, $datetime);
+        $data = array_merge($validatedData, $addData);
 
         // simpan 
         DB::table('categories')->insert($data);
@@ -108,13 +108,13 @@ class CategoryController extends Controller
             'floor' => 'required',
         ]);
 
-        // datetime
-        $datetime = [
+        // data tambahan
+        $addData = [
             'updated_at' => now(),
         ];
 
         // merge array
-        $data = array_merge($validatedData, $datetime);
+        $data = array_merge($validatedData, $addData);
 
         // update 
         DB::table('categories')

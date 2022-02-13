@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->enum('role', ['Admin', 'Mahasiswa'])->default('Mahasiswa');
             $table->char('nim', 8)->unique()->nullable();
-            $table->string('photo')->nullable();
+            $table->string('photo')->default('default.jpg');
             $table->enum('gender', ['Laki-Laki', 'Perempuan'])->nullable();
             $table->boolean('is_confirmation')->default(false);
             $table->rememberToken();

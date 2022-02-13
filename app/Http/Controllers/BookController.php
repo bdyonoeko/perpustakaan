@@ -15,6 +15,7 @@ class BookController extends Controller
     public function index()
     {
         $books = DB::table('books')
+            ->join('categories', 'books.category_id', '=', 'categories.id')
             ->orderBy('title')
             ->get();
 
@@ -31,7 +32,9 @@ class BookController extends Controller
     public function create()
     {
         // ambil data kategori
-        $categories = DB::table('categories')->get();
+        $categories = DB::table('categories')
+        ->orderBy('name')
+        ->get();
 
         return view('pages.admin.book.create', [
             'categories' => $categories
@@ -46,7 +49,43 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validasi
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'writer' => 'required',
+            'publisher' => 'required',
+            'year' => 'required|numeric|min:4',
+            'category_id' => 'required',
+            'cover' => 'mimes:png,jpg,jpeg|max:2048',
+            'stock' => 'required',
+        ]);
+
+        // ganti nama cover
+        if ($request->hasfile('cover')) {
+            $changeNameCover = uniqid('cvr-') . '.jpg';
+        } else {
+            $changeNameCover = 'default.jpg';
+        }
+
+        // data tambahan
+        $addData = [
+            'cover' => $changeNameCover,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+
+        // merge array
+        $data = array_merge($validatedData, $addData);
+
+        // simpan 
+        DB::table('books')->insert($data);
+
+        // pindahkan gambar
+        if ($request->hasfile('cover')) {
+            $request->cover->move('images/covers/', $changeNameCover);
+        }
+
+        return redirect()->route('book.index')->with('pesan', 'Tambah buku berhasil');
     }
 
     /**
