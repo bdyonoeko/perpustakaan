@@ -44,14 +44,28 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-
                         @if (Route::has('home'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
                         @endif
+
+                        {{-- menu ketika user login --}}
+                        @auth
+                        @if (Route::has('booking.index'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('booking.index') }}">{{ __('Booking') }}</a>
+                        </li>
+                        @endif
+                        @if (Route::has('booking.index'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('booking.index') }}">{{ __('Peminjaman') }}</a>
+                        </li>
+                        @endif
+                        @endauth
+
+                        <!-- Authentication Links -->
+                        @guest
 
                         @if (Route::has('login'))
                         <li class="nav-item">

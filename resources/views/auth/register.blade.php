@@ -12,6 +12,21 @@
                         @csrf
 
                         <div class="row mb-3">
+                            <label for="nim" class="col-md-4 col-form-label text-md-end">{{ __('Nim') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="nim" type="text" class="form-control @error('nim') is-invalid @enderror"
+                                    name="nim" value="{{ old('nim') }}" required autocomplete="nim" autofocus>
+
+                                @error('nim')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
@@ -19,6 +34,27 @@
                                     name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                                 @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 form-group">
+                            <label for="gender"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Jenis Kelamin') }}</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control @error('gender') is-invalid @enderror" id="gender"
+                                    name="gender">
+                                    <option value="Laki-Laki" {{ old('gender') == 'Laki-Laki' ? 'selected' : '' }}>
+                                        Laki-Laki</option>
+                                    <option value="Perempuan" {{ old('gender') == 'Perempuan' ? 'selected' : '' }}>
+                                        Perempuan</option>
+                                </select>
+
+                                @error('gender')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

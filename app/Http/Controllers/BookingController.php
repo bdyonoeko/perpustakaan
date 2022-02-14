@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
+    public function __construct()
+    {
+        // memasang middleware kecuali untuk function show
+        $this->middleware('auth')->except('show');
+    }
+
     /**
      * Display a listing of the resource.
      *
