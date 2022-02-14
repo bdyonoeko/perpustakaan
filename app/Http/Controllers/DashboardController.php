@@ -9,10 +9,25 @@ class DashboardController extends Controller
 {
     public function index(){
         // hitung total buku
-        $totalBuku = DB::table('books')->sum('stock');
+        $totalBook = DB::table('books')->sum('stock');
+
+        // hitung total student
+        $totalUser = DB::table('users')
+            ->where('role', '!=', 'Admin')
+            ->get();
+
+        // ambil data student yang belum dikonfirmasi
+        $userNotConfirmed = DB::table('users')
+            ->where('is_confirmation', '==', false)
+            ->where('role', '!=', 'Admin')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
 
         return view('pages.admin.index', [
-            'totalBuku' => $totalBuku,
+            'totalBook' => $totalBook,
+            'totalUser' => $totalUser,
+            'userNotConfirmed' => $userNotConfirmed,
         ]);
     }
 }

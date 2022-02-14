@@ -22,8 +22,10 @@
             </div>
         </div>
         @empty
-        <div class="col-lg-3 col-md-6 text-center">
-            <p>Data tidak ditemukan</p>
+        <div class="text-center">
+            <div class="alert alert-warning" role="alert">
+                <p>Data tidak ditemukan</p>
+            </div>
         </div>
         @endforelse
 

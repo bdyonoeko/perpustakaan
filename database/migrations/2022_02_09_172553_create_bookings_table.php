@@ -16,7 +16,9 @@ class CreateBookingsTable extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->boolean('is_confirmation')->default(false);
+            $table->foreignId('book_id')->constrained()->onDelete('cascade');
+            $table->boolean('is_confirmation_user')->default(false);
+            $table->boolean('is_confirmation_admin')->default(false);
             $table->timestamps();
         });
     }
