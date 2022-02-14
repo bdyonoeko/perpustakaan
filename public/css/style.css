@@ -7,3 +7,20 @@
     width: 150px;
     height: 210px;
 }
+
+.img-width-responsive {
+    height: 300px;
+    width: 100%;
+}
+
+/* effect seperti button */
+.card-effect {
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: all 0.35s ease;
+}
+
+.card-effect:hover {
+    box-shadow: none;
+    transform: translateY(5px);
+}

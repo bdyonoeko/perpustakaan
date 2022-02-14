@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -24,10 +25,18 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // cek user login dan lempar ke halaman yg seharusnya
         if (Auth::user() && Auth::user()->role == 'Admin') {
             return redirect()->route('dashboard');
         }
 
-        return view('pages.student.index');
+        // ambil data buku-buku
+        $books = DB::table('books')
+            ->orderBy('title')
+            ->get();
+
+        return view('pages.student.index', [
+            'books' => $books,
+        ]);
     }
 }
