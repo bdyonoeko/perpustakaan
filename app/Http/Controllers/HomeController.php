@@ -39,4 +39,27 @@ class HomeController extends Controller
             'books' => $books,
         ]);
     }
+
+    public function edit($id)
+    {
+        $user = DB::table('users')
+            ->where('id', $id)
+            ->first();
+
+        return view('pages.student.user.edit', [
+            'user' => $user,
+        ]);
+    }
+
+    public function show($id)
+    {
+        $user = DB::table('users')
+            ->where('id', $id)
+            ->first();
+
+
+        return view('pages.student.user.show', [
+            'user' => $user,
+        ]);
+    }
 }

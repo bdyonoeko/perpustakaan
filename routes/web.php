@@ -21,7 +21,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 // student start
+    // home
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/home/show/{id}', [HomeController::class, 'show'])->name('home.user.show');
+    Route::get('/home/edit/{id}', [HomeController::class, 'edit'])->name('home.user.edit');
 
     // booking
     Route::resource('booking', BookingController::class);
@@ -38,7 +41,12 @@ use Illuminate\Support\Facades\Route;
     Route::resource('category', CategoryController::class)->middleware('is_admin');
 
     //user
-    Route::resource('user', UserController::class)->middleware('is_admin');
+    Route::middleware('is_admin')->group(function() {
+        Route::get('user/{any}', [UserController::class, 'index'])->name('user.index');
+        Route::get('user/show/{id}', [UserController::class, 'show'])->name('user.show');
+        Route::delete('user/{id}/{any}', [UserController::class, 'destroy'])->name('user.destroy');
+        Route::put('user/{id}', [UserController::class, 'update'])->name('user.update');
+    });
 // admin end
 
 Auth::routes();

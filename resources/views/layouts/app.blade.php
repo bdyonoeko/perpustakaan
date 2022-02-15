@@ -27,7 +27,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand font-weight-bold" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -46,7 +46,8 @@
                     <ul class="navbar-nav ms-auto">
                         @if (Route::has('home'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
+                            <a class="nav-link {{ Request::is('/') ? 'active font-weight-bold' : '' }}"
+                                href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
                         @endif
 
@@ -54,12 +55,14 @@
                         @auth
                         @if (Route::has('booking.index'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('booking.index') }}">{{ __('Booking') }}</a>
+                            <a class="nav-link {{ Request::is('booking*') ? 'active font-weight-bold' : '' }}"
+                                href="{{ route('booking.index') }}">{{ __('Booking') }}</a>
                         </li>
                         @endif
                         @if (Route::has('booking.index'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('booking.index') }}">{{ __('Peminjaman') }}</a>
+                            <a class="nav-link {{ Request::is('borrow*') ? 'active font-weight-bold' : '' }}"
+                                href="{{ route('booking.index') }}">{{ __('Peminjaman') }}</a>
                         </li>
                         @endif
                         @endauth
@@ -69,13 +72,15 @@
 
                         @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link {{ Request::is('login') ? 'active font-weight-bold' : '' }}"
+                                href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                         @endif
 
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link {{ Request::is('register') ? 'active font-weight-bold' : '' }}"
+                                href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                         @endif
                         @else
@@ -86,6 +91,9 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('home.user.show', Auth::id()) }}">
+                                    {{ __('Profile') }}
+                                </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}

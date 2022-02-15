@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -11,9 +14,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($isConfirmation)
     {
-        //
+        $users = DB::table('users')
+            ->where('is_confirmation', $isConfirmation)
+            ->where('role', '!=', 'Admin')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('pages.admin.user.index', [
+            'users' => $users,
+            'isConfirmation' => $isConfirmation,
+        ]);
     }
 
     /**
@@ -45,7 +57,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = DB::table('users')
+            ->where('id', $id)
+            ->first();
+
+        return view('pages.admin.user.show', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -68,7 +86,55 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // cek role
+        if (Auth::role('Admin')) {
+            // jika admin, ia akan redirect ke hal. admin
+            DB::table('users')
+                ->where('id', $id)
+                ->update(['is_confirmation' => true]);
+    
+            return redirect()->route('user.index', $isConfirmation='1')->with('pesan', 'Konfirmasi mahasiswa berhasil');
+        } else {
+
+            // jika mahasiswa, ia akan redirect ke mahasiswa
+            // validasi
+            $validatedData = $request->validate([
+                'nim' => ['required', 'string', 'max:8', 'min:8', 'unique:users'],
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'gender' => ['required']
+            ]);
+
+            // photo
+            if ($request->hasfile('photo')) {
+                // ganti nama
+                $changeNamePhoto = uniqid('pht-') . '.jpg';
+                // pindahkan file
+                $request->photo->move('images/profiles/', $changeNamePhoto);
+                // hapus file lama
+                if ($request->photoOld != 'default.jpg') {
+                    File::delete('images/profiles/' . $request->photoOld);
+                }
+            } else {
+                $changeNamePhoto = $request->photoOld;
+            }
+
+            // data tambahan
+            $addData = [
+                'photo' => $changeNamePhoto,
+                'updated_at' => now(),
+            ];
+
+            // merge array
+            $data = array_merge($validatedData, $addData);
+
+            // update
+            DB::table('users')
+                ->where('id', $id)
+                ->update($data);
+
+            return redirect()->route('user.show')->with('pesan', 'Perubahan data berhasil');
+        }
     }
 
     /**
@@ -77,8 +143,23 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $isConfirmation)
     {
-        //
+        // ambil data user
+        $user = DB::table('users')
+            ->where('id', $id)
+            ->first();
+
+        // hapus file cover
+        if ($user->photo != 'default.jpg') {
+            File::delete('images/profiles/' . $user->cover);
+        }
+
+        // hapus data user
+        DB::table('users')
+            ->where('id', $id)
+            ->delete();
+
+        return redirect()->route('user.index', $isConfirmation=$isConfirmation)->with('pesan', 'Hapus mahasiswa berhasil');
     }
 }

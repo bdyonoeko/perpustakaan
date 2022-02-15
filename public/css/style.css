@@ -13,6 +13,11 @@
     width: 100%;
 }
 
+.img-profile-sm {
+    width: 70px;
+    height: 70px;
+}
+
 /* effect seperti button */
 .card-effect {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);

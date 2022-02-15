@@ -10,8 +10,8 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('dashboard') }}">
+    <li class="nav-item {{ Request::is('dashboard*') ? 'active font-weight-bold' : '' }}">
+        <a class="nav-link active" href="{{ route('dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -25,21 +25,21 @@
     </div>
 
     <!-- Nav Item - Buku -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('book.index') }}">
+    <li class="nav-item {{ Request::is('book*') ? 'active font-weight-bold' : '' }}">
+        <a class="nav-link active" href="{{ route('book.index') }}">
             <i class="fas fa-fw fa-book"></i>
             <span>Buku</span></a>
     </li>
 
     <!-- Nav Item - Kategori -->
-    <li class="nav-item">
+    <li class="nav-item {{ Request::is('category*') ? 'active font-weight-bold' : '' }}">
         <a class="nav-link" href="{{ route('category.index') }}">
             <i class="fas fa-fw fa-list"></i>
             <span>Kategori</span></a>
     </li>
 
     <!-- Nav Item - Mahasiswa -->
-    <li class="nav-item">
+    <li class="nav-item {{ Request::is('user*') ? 'active font-weight-bold' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#mahasiswa" aria-expanded="true"
             aria-controls="mahasiswa">
             <i class="fas fa-fw fa-graduation-cap"></i>
@@ -48,14 +48,14 @@
         <div id="mahasiswa" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Mahasiswa:</h6>
-                <a class="collapse-item" href="buttons.html">Konfirmasi Mahasiswa</a>
-                <a class="collapse-item" href="cards.html">Daftar Mahasiswa</a>
+                <a class="collapse-item" href="{{ route('user.index', $isConfirmation='0') }}">Butuh Konfirmasi</a>
+                <a class="collapse-item" href="{{ route('user.index', $isConfirmation='1') }}">Daftar Mahasiswa</a>
             </div>
         </div>
     </li>
 
     <!-- Nav Item - Peminjaman -->
-    <li class="nav-item">
+    <li class="nav-item {{ Request::is('borrow*') ? 'active font-weight-bold' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#peminjaman" aria-expanded="true"
             aria-controls="peminjaman">
             <i class="fas fa-fw fa-handshake"></i>
