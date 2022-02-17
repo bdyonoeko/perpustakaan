@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -39,6 +40,10 @@ use Illuminate\Support\Facades\Route;
 
     // category
     Route::resource('category', CategoryController::class)->middleware('is_admin');
+
+    // borrow
+    Route::resource('borrow', BorrowController::class)->middleware('is_admin');
+    Route::get('borrow/create/{id}', [BorrowController::class, 'create'])->name('borrow.create')->middleware('is_admin');
 
     //user
     Route::middleware('is_admin')->group(function() {

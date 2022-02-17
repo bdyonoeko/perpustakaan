@@ -58,7 +58,7 @@
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                             Peminjaman
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($totalBorrow) }}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-handshake fa-2x text-gray-300"></i>
@@ -78,18 +78,58 @@
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Peminjaman Butuh Konfirmasi</h6>
+                <h6 class="m-0 font-weight-bold text-dark">Peminjaman Butuh Konfirmasi (<a
+                        href="{{ route('borrow.index', $isConfirmationAdmin='0') }}">More...</a>)</h6>
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
-                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Buku</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @forelse ($bookingNotConfirmed as $booking)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $booking->name }}</td>
+                            <td>{{ $booking->title }}</td>
+                            <td>
+
+                                {{-- read --}}
+                                <a href="{{ route('borrow.create', $booking->id) }}" class="btn btn-success mr-2"
+                                    title="Buat Konfirmasi">
+                                    <i class="fas fa-check"></i>
+                                </a>
+
+                                <!-- button delete modal -->
+                                <button type="button" class="btn btn-danger btn-delete" data-toggle="modal"
+                                    data-target="#deleteModal" data-id={{ $booking->id }} title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+
+                            </td>
+                        </tr>
+                        @empty
+                        <tr class="text-center">
+                            <td colspan="3">Data tidak ditemukan</td>
+                        </tr>
+                        @endforelse
+
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
 
-    <!-- Pie Chart -->
+    <!-- Konfirmasi User -->
     <div class="col-lg-5">
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
