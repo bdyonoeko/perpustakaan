@@ -15,7 +15,21 @@
                     <h5 class="card-title font-weight-bold">{{ $book->title }}</h5>
                     <small class="card-text">by. <b>{{ $book->writer }}</b> from <b>{{ $book->publisher }}</b>,
                         <b>{{ $book->year }}</b></small>
-                    <a href="#" class="btn btn-primary d-flex justify-content-center mt-3">Booking</a>
+
+
+                    {{-- tombol booking --}}
+                    @if ($book->stock == 0)
+                    <a href="#" class="btn btn-danger d-flex mt-3 justify-content-center disabled">Booking Penuh</a>
+                    @else
+                    <form action="{{ route('booking.store') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="book_id" value="{{ $book->id }}">
+                        <button type="submit"
+                            class="btn btn-primary d-flex w-100 justify-content-center mt-3">Booking</button>
+                    </form>
+                    @endif
+
+                    {{-- tombol detail  --}}
                     <a href="{{ route('booking.show', $book->id) }}"
                         class="btn btn-secondary d-flex justify-content-center mt-2">Detail</a>
                 </div>

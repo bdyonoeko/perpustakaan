@@ -21,6 +21,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     @include('includes.styles')
+    @stack('styles')
 </head>
 
 <body>
@@ -116,9 +117,12 @@
         </main>
 
         @include('includes.admin.footer')
+
+        @stack('modal')
     </div>
 
     @include('includes.scripts')
+    @stack('scripts')
 </body>
 
 </html>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
@@ -20,7 +21,17 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        $bookings = DB::table('bookings')
+            ->select('bookings.*', 'books.title as title', 'books.cover as cover', 'books.writer as writer')
+            ->join('books', 'books.id', '=', 'bookings.book_id')
+            ->where('user_id', Auth::id())
+            ->where('is_confirmation_user', '0')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('pages.student.booking.index', [
+            'bookings' => $bookings,
+        ]);
     }
 
     /**
@@ -41,7 +52,16 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // ambil data
+        $data = [
+            'book_id' => $request->book_id,
+            'user_id' => Auth::id(),
+        ];
+
+        // simpan data
+        DB::table('bookings')->insert($data);
+
+        return redirect()->route('booking.index');
     }
 
     /**
@@ -84,7 +104,30 @@ class BookingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // update is_confirmation_user di table bookings
+        DB::table('bookings')
+            ->where('id', $id)
+            ->update(['is_confirmation_user' => 1]);
+
+        // ambil data booking
+        $booking = DB::table('bookings')
+            ->where('id', $id)
+            ->first();
+
+        // ambil data buku
+        $book = DB::table('books')
+            ->where('id', $booking->book_id)
+            ->first();
+
+        // kurangi stock
+        $stock = $book->stock - 1;
+
+        // update stock di table books
+        DB::table('books')
+            ->where('id', $booking->book_id)
+            ->update(['stock' => $stock]);
+
+        return redirect()->route('booking.index')->with('pesan', 'Konfirmasi booking berhasil');
     }
 
     /**
@@ -95,6 +138,11 @@ class BookingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // hapus data booking
+        DB::table('bookings')
+            ->where('id', $id)
+            ->delete();
+
+        return redirect()->route('booking.index')->with('pesan', 'Hapus booking berhasil');
     }
 }
