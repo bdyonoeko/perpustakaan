@@ -5,6 +5,16 @@
 @section('content')
 <div class="container pt-4">
 
+    {{-- pesan --}}
+    @if (session()->has('pesan'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session()->get('pesan') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
     <div class="row g-4 justify-content-center">
         @forelse ($books as $book)
         <div class="col-lg-3 col-md-6">

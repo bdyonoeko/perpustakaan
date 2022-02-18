@@ -42,8 +42,14 @@ use Illuminate\Support\Facades\Route;
     Route::resource('category', CategoryController::class)->middleware('is_admin');
 
     // borrow
-    Route::resource('borrow', BorrowController::class)->middleware('is_admin');
+    // Route::resource('borrow', BorrowController::class)->middleware('is_admin');
+    Route::get('borrow/{any}', [BorrowController::class, 'index'])->name('borrow.index')->middleware('is_admin');
     Route::get('borrow/create/{id}', [BorrowController::class, 'create'])->name('borrow.create')->middleware('is_admin');
+    Route::post('borrow/', [BorrowController::class, 'store'])->name('borrow.store')->middleware('is_admin');
+    Route::get('borrow/{id}/edit', [BorrowController::class, 'edit'])->name('borrow.edit')->middleware('is_admin');
+    Route::put('borrow/{id}', [BorrowController::class, 'update'])->name('borrow.update')->middleware('is_admin');
+    Route::delete('borrow/{id}/{any}', [BorrowController::class, 'destroy'])->name('borrow.destroy')->middleware('is_admin');
+    Route::get('borrow/confirm', [BorrowController::class, 'confirmationPage'])->name('borrow.confirm')->middleware('is_admin');
 
     //user
     Route::middleware('is_admin')->group(function() {

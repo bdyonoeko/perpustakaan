@@ -87,16 +87,16 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         // cek role
-        if (Auth::role('Admin')) {
-            // jika admin, ia akan redirect ke hal. admin
+        if (Auth::user()->role == 'Admin') {
+            // konfirmasi user lalu akan redirect ke hal. admin
             DB::table('users')
                 ->where('id', $id)
-                ->update(['is_confirmation' => true]);
+                ->update(['is_confirmation' => '1']);
     
             return redirect()->route('user.index', $isConfirmation='1')->with('pesan', 'Konfirmasi mahasiswa berhasil');
         } else {
 
-            // jika mahasiswa, ia akan redirect ke mahasiswa
+            // jika mahasiswa, ia akan merubah data miliknya dan redirect ke mahasiswa
             // validasi
             $validatedData = $request->validate([
                 'nim' => ['required', 'string', 'max:8', 'min:8', 'unique:users'],

@@ -17,7 +17,7 @@ class CreateBorrowsTable extends Migration
             $table->id();
             $table->date('date_start');
             $table->date('date_end');
-            $table->enum('status', ['Pinjam', 'Selesai', 'Denda'])->default('Pinjam');
+            $table->boolean('is_finish')->default(false);
             $table->foreignId('booking_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

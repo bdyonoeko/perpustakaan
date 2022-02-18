@@ -64,9 +64,9 @@
         <div id="peminjaman" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Peminjaman:</h6>
-                <a class="collapse-item" href="buttons.html">Konfirmasi Pinjaman</a>
-                <a class="collapse-item" href="cards.html">Dalam Pinjaman</a>
-                <a class="collapse-item" href="cards.html">Riwayat Pinjaman</a>
+                <a class="collapse-item" href="{{ route('borrow.confirm') }}">Konfirmasi Pinjaman</a>
+                <a class="collapse-item" href="{{ route('borrow.index', $isFinish='0') }}">Dalam Pinjaman</a>
+                <a class="collapse-item" href="{{ route('borrow.index', $isFinish='1') }}">Riwayat Pinjaman</a>
             </div>
         </div>
     </li>

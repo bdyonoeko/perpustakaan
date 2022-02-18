@@ -18,7 +18,7 @@ class DashboardController extends Controller
         
         // hitung total peminjaman
         $totalBorrow = DB::table('borrows')
-            ->where('status', 'Pinjam')
+            ->where('is_finish', '0')
             ->get();
 
         // ambil data student yang belum dikonfirmasi

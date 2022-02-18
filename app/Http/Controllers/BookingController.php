@@ -52,6 +52,10 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->is_confirmation == '0') {
+            return redirect()->route('home')->with('pesan', 'Booking tidak bisa dilakukan. Akun anda belum dikonfirmasi oleh admin. Harap menunggu!');
+        }
+
         // ambil data
         $data = [
             'book_id' => $request->book_id,
