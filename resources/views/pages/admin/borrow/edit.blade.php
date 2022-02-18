@@ -64,7 +64,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="date_end">Tanggal Pengembalian</label>
+                                <label for="date_end">Tanggal Deadline</label>
                                 <input type="date" class="form-control" id="date_end" name="date_end"
                                     value="{{ old('date_end') ? old('date_end') : $borrow->date_end }}">
                                 @error('date_end')
@@ -75,10 +75,10 @@
                                 <label for="is_finish">Status</label>
                                 <select class="form-control" id="is_finish" name="is_finish">
                                     <option value="0"
-                                        {{ (old('is_finish') ?? $borrow->is_finish) == '0' ? 'checked' : '' }}>Pinjam
+                                        {{ (old('is_finish') ?? $borrow->is_finish) == '0' ? 'selected' : '' }}>Pinjam
                                     </option>
                                     <option value="1"
-                                        {{ (old('is_finish') ?? $borrow->is_finish) == '1' ? 'checked' : '' }}>Selesai
+                                        {{ (old('is_finish') ?? $borrow->is_finish) == '1' ? 'selected' : '' }}>Selesai
                                     </option>
                                     @error('is_finish')
                                     <div class="text-danger">{{ $message }}</div>

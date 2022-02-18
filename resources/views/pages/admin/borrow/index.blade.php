@@ -36,7 +36,13 @@
                             <th>Nama</th>
                             <th>Buku</th>
                             <th>Tanggal Peminjaman</th>
+                            <th>Tanggal Deadline</th>
+
+                            {{-- tanggal pengembalian hanya akan muncul di halaman daftar pinjaman yg selesai --}}
+                            @if ($isFinish)
                             <th>Tanggal Pengembalian</th>
+                            @endif
+
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -51,6 +57,12 @@
                             <td>{{ $borrow->title }}</td>
                             <td>{{ date('d M Y', strtotime($borrow->date_start)) }}</td>
                             <td>{{ date('d M Y', strtotime($borrow->date_end)) }}</td>
+
+                            {{-- tanggal pengembalian hanya akan muncul di halaman daftar pinjaman yg selesai --}}
+                            @if ($isFinish)
+                            <td>{{ date('d M Y', strtotime($borrow->updated_at)) }}</td>
+                            @endif
+
                             <td>
                                 @if ($borrow->is_finish == '0')
                                 Pinjam
@@ -60,14 +72,17 @@
                             </td>
                             <td class="d-flex justify-content-center">
 
-                                {{-- edit --}}
+
+                                {{-- edit hanya akan muncul di daftar pinjaman yang masih dalam pinjaman --}}
+                                @if ($isFinish == '0')
                                 <a href="{{ route('borrow.edit', $borrow->id) }}" class="btn btn-secondary mr-2"
                                     title="Ubah">
                                     <i class="fas fa-edit"></i>
                                 </a>
+                                @endif
 
-                                @if ($isFinish == '1')
                                 <!-- button delete modal hanya akan muncul di daftar pinjaman yang sudah selesai -->
+                                @if ($isFinish == '1')
                                 <button type="button" class="btn btn-danger btn-delete" data-toggle="modal"
                                     data-target="#deleteModal" data-id={{ $borrow->id }} is-finish={{ $isFinish }}
                                     title="Hapus">
