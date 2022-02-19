@@ -100,7 +100,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $booking->name }}</td>
                             <td>{{ $booking->title }}</td>
-                            <td>
+                            <td class="text-center">
 
                                 {{-- read --}}
                                 <a href="{{ route('adminbooking.create', $booking->id) }}" class="btn btn-success mr-2"
@@ -110,8 +110,7 @@
 
                                 <!-- button delete modal -->
                                 <button type="button" class="btn btn-danger btn-delete" data-toggle="modal"
-                                    data-target="#deleteModalKonfirmasiPinjaman" data-id={{ $booking->id }}
-                                    title="Hapus">
+                                    data-target="#deleteModalConfirmation" data-id={{ $booking->id }} title="Hapus">
                                     <i class="fas fa-trash"></i>
                                 </button>
 
@@ -119,7 +118,7 @@
                         </tr>
                         @empty
                         <tr class="text-center">
-                            <td colspan="4">Data tidak ditemukan</td>
+                            <td colspan="5">Data tidak ditemukan</td>
                         </tr>
                         @endforelse
 

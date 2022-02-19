@@ -1,7 +1,7 @@
 @push('modal')
 {{-- deleteModal untuk konfirmasi pinjaman di halaman dashboard --}}
-<div class="modal fade" id="deleteModalKonfirmasiPinjaman" tabindex="-1" role="dialog"
-    aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModalConfirmation" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
 
         <div class="modal-content">
@@ -16,7 +16,7 @@
             </div>
             <div class="modal-footer">
                 {{-- form delete --}}
-                <form action="" method="post" id="deleteForm">
+                <form action="" method="post" id="deleteFormConfirmation">
                     @csrf
                     @method('delete')
 
@@ -36,7 +36,7 @@
     // menangkap nilai id lalu mengeneratenya ke dalam url action form 
     $('.btn-delete').click(function () {
         let idDelete = $(this).attr('data-id');
-        $('#deleteForm').attr('action', '/booking/' + idDelete);
+        $('#deleteFormConfirmation').attr('action', '/adminbooking/' + idDelete);
     })
 
     // jika ya ditekan, maka submit form

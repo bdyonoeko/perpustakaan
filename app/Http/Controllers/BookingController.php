@@ -67,6 +67,19 @@ class BookingController extends Controller
         // simpan data
         DB::table('bookings')->insert($data);
 
+        // ambil data buku untuk dilakukan pengurangan stock
+        $book = DB::table('books')
+            ->where('id', $request->book_id)
+            ->first();
+
+        // kurangi stock
+        $stock = $book->stock - 1;
+
+        // update stock di table books
+        DB::table('books')
+            ->where('id', $request->book_id)
+            ->update(['stock' => $stock]);
+
         return redirect()->route('booking.index');
     }
 
@@ -115,24 +128,6 @@ class BookingController extends Controller
             ->where('id', $id)
             ->update(['is_confirmation_user' => 1]);
 
-        // ambil data booking
-        $booking = DB::table('bookings')
-            ->where('id', $id)
-            ->first();
-
-        // ambil data buku
-        $book = DB::table('books')
-            ->where('id', $booking->book_id)
-            ->first();
-
-        // kurangi stock
-        $stock = $book->stock - 1;
-
-        // update stock di table books
-        DB::table('books')
-            ->where('id', $booking->book_id)
-            ->update(['stock' => $stock]);
-
         return redirect()->route('booking.index')->with('pesan', 'Konfirmasi booking berhasil');
     }
 
@@ -144,6 +139,24 @@ class BookingController extends Controller
      */
     public function destroy($id)
     {
+        // ambil data booking untuk mendapatkan data buku yang di booking
+        $booking = DB::table('bookings')
+            ->where('id', $id)
+            ->first();
+
+        // ambil data buku untuk mengurangi stock
+        $book = DB::table('books')
+            ->where('id', $booking->book_id)
+            ->first();
+
+        // tambah stock
+        $stock = $book->stock + 1;
+
+        // update stock di table books
+        DB::table('books')
+            ->where('id', $booking->book_id)
+            ->update(['stock' => $stock]);
+
         // hapus data booking
         DB::table('bookings')
             ->where('id', $id)

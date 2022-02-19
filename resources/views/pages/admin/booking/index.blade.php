@@ -53,7 +53,8 @@
 
                                 <!-- button delete modal -->
                                 <button type="button" class="btn btn-danger btn-delete" data-toggle="modal"
-                                    data-target="#deleteModal" data-id={{ $booking->id }} title="Hapus">
+                                    data-target="#deleteModalKonfirmasiPinjaman" data-id={{ $booking->id }}
+                                    title="Hapus">
                                     <i class="fas fa-trash"></i>
                                 </button>
 
@@ -77,24 +78,7 @@
 @endsection
 
 {{-- melampirkan push deleteModal --}}
-@include('includes.deleteModal')
+@include('includes.deleteModal2')
 
 {{-- melampirkan push css dan js datatables --}}
 @include('includes.datatables')
-
-{{-- push script deleteJS --}}
-@push('scripts')
-<script>
-    // menangkap nilai id lalu mengeneratenya ke dalam url action form 
-    $('.btn-delete').click(function () {
-        let idDelete = $(this).attr('data-id');
-        $('#deleteForm').attr('action', '/borrow/' + idDelete);
-    })
-
-    // jika ya ditekan, maka submit form
-    $('#deleteForm [type="submit"]').click(function () {
-        $('#deleteForm').submit();
-    })
-
-</script>
-@endpush

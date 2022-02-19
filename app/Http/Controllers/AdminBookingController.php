@@ -100,11 +100,29 @@ class AdminBookingController extends Controller
      */
     public function destroy($id)
     {
+        // ambil data booking untuk mendapatkan data buku yang di booking
+        $booking = DB::table('bookings')
+            ->where('id', $id)
+            ->first();
+
+        // ambil data buku untuk mengembalikan stock
+        $book = DB::table('books')
+            ->where('id', $booking->book_id)
+            ->first();
+
+        // tambah stock
+        $stock = $book->stock + 1;
+
+        // update stock di table books
+        DB::table('books')
+            ->where('id', $booking->book_id)
+            ->update(['stock' => $stock]);
+
         // hapus data pinjaman yang belum dikonfirmasi
         DB::table('bookings')
             ->where('id', $id)
             ->delete();
 
-        return redirect()->route('bookingadmin.index')->with('pesan', 'Hapus pinjaman yang belum dikonfirmasi berhasil');
+        return redirect()->route('adminbooking.index')->with('pesan', 'Hapus konfirmasi pinjaman berhasil');
     }
 }

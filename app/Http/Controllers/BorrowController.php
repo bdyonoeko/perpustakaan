@@ -143,7 +143,7 @@ class BorrowController extends Controller
         // get status
         $isFinish = $request->is_finish;
 
-        // get total stok buku
+        // get total stok buku untuk mengembalikan stock buku
         $book = DB::table('bookings')
             ->select('books.stock as stock', 'books.id as book_id')
             ->join('borrows', 'bookings.id', '=', 'borrows.booking_id')
@@ -175,12 +175,7 @@ class BorrowController extends Controller
      */
     public function destroy($id, $isFinish)
     {
-        // hapus data pinjaman
-        DB::table('borrows')
-            ->where('id', $id)
-            ->delete();
-
-        // ambil data pinjaman
+        // ambil data pinjaman untuk mendapatkan data booking
         $borrow = DB::table('borrows')
             ->where('id', $id)
             ->first();
@@ -188,6 +183,11 @@ class BorrowController extends Controller
         // hapus data booking di table booking
         DB::table('bookings')
             ->where('id', $borrow->booking_id)
+            ->delete();
+
+        // hapus data pinjaman
+        DB::table('borrows')
+            ->where('id', $id)
             ->delete();
 
         return redirect()->route('borrow.index', $isFinish)->with('pesan', 'Hapus pinjaman berhasil');
