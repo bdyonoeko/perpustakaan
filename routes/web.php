@@ -8,6 +8,7 @@ use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\StudentBorrowController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,8 +27,8 @@ use Illuminate\Support\Facades\Route;
 // student start
     // home
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('/home/show/{id}', [HomeController::class, 'show'])->name('home.user.show');
-    Route::get('/home/edit/{id}', [HomeController::class, 'edit'])->name('home.user.edit');
+    Route::get('home/show/{id}', [HomeController::class, 'show'])->name('home.user.show');
+    Route::get('studentborrow', [StudentBorrowController::class, 'index'])->name('studentborrow.index');
 
     // booking
     Route::resource('booking', BookingController::class);

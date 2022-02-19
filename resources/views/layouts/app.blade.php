@@ -62,8 +62,8 @@
                         @endif
                         @if (Route::has('booking.index'))
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::is('borrow*') ? 'active font-weight-bold' : '' }}"
-                                href="{{ route('booking.index') }}">{{ __('Peminjaman') }}</a>
+                            <a class="nav-link {{ Request::is('studentborrow*') ? 'active font-weight-bold' : '' }}"
+                                href="{{ route('studentborrow.index') }}">{{ __('Peminjaman') }}</a>
                         </li>
                         @endif
                         @endauth

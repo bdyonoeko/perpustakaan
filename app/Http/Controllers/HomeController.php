@@ -40,19 +40,9 @@ class HomeController extends Controller
         ]);
     }
 
-    public function edit($id)
-    {
-        $user = DB::table('users')
-            ->where('id', $id)
-            ->first();
-
-        return view('pages.student.user.edit', [
-            'user' => $user,
-        ]);
-    }
-
     public function show($id)
     {
+        // menampilkan data profil user
         $user = DB::table('users')
             ->where('id', $id)
             ->first();

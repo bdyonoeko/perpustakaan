@@ -28,7 +28,6 @@
                             {{-- detail --}}
                             <div class="table-responsive mb-4">
                                 <table class="table table-hover">
-
                                     <tbody>
                                         <tr>
                                             <th scope="row">NIM</th>
@@ -51,15 +50,7 @@
                                             <td>{{ date('d M Y', strtotime($user->created_at))  }} </td>
                                         </tr>
                                     </tbody>
-
                                 </table>
-
-                                {{-- tombol edit --}}
-                                <div class="text-center">
-                                    <a href="{{ route('home.user.edit', Auth::id()) }}" class="btn btn-secondary">Ubah
-                                        Data</a>
-                                </div>
-
                             </div>
 
                         </div>
