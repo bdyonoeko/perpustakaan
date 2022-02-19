@@ -79,7 +79,7 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-dark">Peminjaman Butuh Konfirmasi (<a
-                        href="{{ route('borrow.index', $isConfirmationAdmin='0') }}">More...</a>)</h6>
+                        href="{{ route('adminbooking.index') }}">More...</a>)</h6>
             </div>
             <!-- Card Body -->
             <div class="card-body">
@@ -103,14 +103,15 @@
                             <td>
 
                                 {{-- read --}}
-                                <a href="{{ route('borrow.create', $booking->id) }}" class="btn btn-success mr-2"
+                                <a href="{{ route('adminbooking.create', $booking->id) }}" class="btn btn-success mr-2"
                                     title="Buat Konfirmasi">
                                     <i class="fas fa-check"></i>
                                 </a>
 
                                 <!-- button delete modal -->
                                 <button type="button" class="btn btn-danger btn-delete" data-toggle="modal"
-                                    data-target="#deleteModal" data-id={{ $booking->id }} title="Hapus">
+                                    data-target="#deleteModalKonfirmasiPinjaman" data-id={{ $booking->id }}
+                                    title="Hapus">
                                     <i class="fas fa-trash"></i>
                                 </button>
 
@@ -187,6 +188,9 @@
 
 {{-- melampirkan push deleteModal --}}
 @include('includes.deleteModal')
+
+{{-- melampirkan push deleteModalKonfirmasiPinjaman --}}
+@include('includes.deleteModal2')
 
 {{-- push script deleteJS --}}
 @push('scripts')

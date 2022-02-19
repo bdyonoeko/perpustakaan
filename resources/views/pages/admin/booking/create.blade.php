@@ -9,8 +9,7 @@
     {{-- breadcrumb --}}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Peminjaman</a></li>
-            <li class="breadcrumb-item"><a href="#">Konfirmasi Pinjaman</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('adminbooking.index') }}">Booking</a></li>
             <li class="breadcrumb-item active" aria-current="page">Buat Konfirmasi</li>
         </ol>
     </nav>

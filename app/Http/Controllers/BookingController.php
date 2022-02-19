@@ -60,6 +60,8 @@ class BookingController extends Controller
         $data = [
             'book_id' => $request->book_id,
             'user_id' => Auth::id(),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
 
         // simpan data

@@ -36,16 +36,7 @@ class BorrowController extends Controller
      */
     public function create($id)
     {
-        $booking = DB::table('bookings')
-            ->select('bookings.*', 'users.name as name', 'books.title as title')
-            ->join('users', 'bookings.user_id', '=', 'users.id')
-            ->join('books', 'bookings.book_id', '=', 'books.id')
-            ->where('bookings.id', $id)
-            ->first();
-
-        return view('pages.admin.borrow.create', [
-            'booking' => $booking
-        ]);
+        //
     }
 
     /**
@@ -75,10 +66,16 @@ class BorrowController extends Controller
         // simpan
         DB::table('borrows')->insert($data);
 
-        // update table bookings
+        // data yang akan di update ditable booking
+        $dataUpdateBooking = [
+            'is_confirmation_admin' => 1,
+            'updated_at' => now(),
+        ];
+
+        // simpan update data booking
         DB::table('bookings')
             ->where('id', $request->booking_id)
-            ->update(['is_confirmation_admin' => 1]);
+            ->update($dataUpdateBooking);
 
         return redirect()->route('borrow.index', '0')->with('pesan', 'Konfirmasi pinjaman berhasil');
     }
@@ -166,7 +163,8 @@ class BorrowController extends Controller
                 ->update($stock);
         }
 
-        return redirect()->route('borrow.index', $isFinish)->with('pesan', 'Ubah pinjaman berhasil');
+        // redirect ke halaman pinjaman yg belum selesai
+        return redirect()->route('borrow.index', '0')->with('pesan', 'Ubah pinjaman berhasil');
     }
 
     /**
@@ -182,17 +180,16 @@ class BorrowController extends Controller
             ->where('id', $id)
             ->delete();
 
+        // ambil data pinjaman
+        $borrow = DB::table('borrows')
+            ->where('id', $id)
+            ->first();
+
+        // hapus data booking di table booking
+        DB::table('bookings')
+            ->where('id', $borrow->booking_id)
+            ->delete();
+
         return redirect()->route('borrow.index', $isFinish)->with('pesan', 'Hapus pinjaman berhasil');
-    }
-
-    public function confirmationPage() {
-        // ambil data booking yang belum dikonfirmasi admin
-        $bookings = DB::table('bookings')
-            ->where('is_confirmation_admin', 0)
-            ->get();
-
-        return view('pages.admin.borrow.booking', [
-            'bookings' => $bookings
-        ]);
     }
 }

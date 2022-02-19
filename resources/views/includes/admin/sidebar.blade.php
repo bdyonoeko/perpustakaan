@@ -24,6 +24,13 @@
         Menu
     </div>
 
+    <!-- Nav Item - booking admin -->
+    <li class="nav-item {{ Request::is('adminbooking*') ? 'active font-weight-bold' : '' }}">
+        <a class="nav-link" href="{{ route('adminbooking.index') }}">
+            <i class="fas fa-fw fa-shopping-basket"></i>
+            <span>Booking</span></a>
+    </li>
+
     <!-- Nav Item - Buku -->
     <li class="nav-item {{ Request::is('book*') ? 'active font-weight-bold' : '' }}">
         <a class="nav-link active" href="{{ route('book.index') }}">
@@ -64,7 +71,6 @@
         <div id="peminjaman" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Peminjaman:</h6>
-                <a class="collapse-item" href="{{ route('borrow.confirm') }}">Konfirmasi Pinjaman</a>
                 <a class="collapse-item" href="{{ route('borrow.index', $isFinish='0') }}">Dalam Pinjaman</a>
                 <a class="collapse-item" href="{{ route('borrow.index', $isFinish='1') }}">Riwayat Pinjaman</a>
             </div>
